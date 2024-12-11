@@ -8,7 +8,7 @@ import org.enib.renew.dto.DeviseDTO;
 import org.enib.renew.dto.SoldeDTO;
 import org.enib.renew.exceptions.BusinessException;
 import org.enib.renew.exceptions.DAOException;
-import org.enib.renew.mappers.DTOToAbstractMapper;
+import org.enib.renew.utils.mappers.DTOToAbstractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

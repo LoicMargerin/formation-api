@@ -5,6 +5,8 @@ import org.enib.renew.business.ISoldesBusiness;
 import org.enib.renew.business.model.Solde;
 import org.enib.renew.exceptions.APIErrorException;
 import org.enib.renew.exceptions.BusinessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ import io.swagger.v3.oas.annotations.*;
 @RequestMapping(SoldesController.PATH)
 
 public class SoldesController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SoldesController.class);
+
     public static final String PATH = "business";
 
     @Autowired
@@ -49,16 +54,21 @@ public class SoldesController {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
             }
-        } catch (final BusinessException e) {
+        } catch (final BusinessException pEx) {
+            LOGGER.error("Erreur sur getSolde pour la personne {} !", pPersonId, pEx);
             final APIError error = new APIError();
 
             error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            error.setCause(e.getSpecificMessage());
+            error.setCause(pEx.getSpecificMessage());
+
+            throw new APIErrorException(error);
+        } catch (Exception pEx) {
+            LOGGER.error("Erreur inattendue sur getSolde pour la personne {} !", pPersonId, pEx);
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
             throw new APIErrorException(error);
         }
-
-
-
     }
 }

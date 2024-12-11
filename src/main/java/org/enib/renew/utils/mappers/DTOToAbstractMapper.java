@@ -1,4 +1,4 @@
-package org.enib.renew.mappers;
+package org.enib.renew.utils.mappers;
 
 import org.enib.renew.business.model.Devise;
 import org.enib.renew.business.model.Solde;
@@ -16,7 +16,7 @@ public abstract class DTOToAbstractMapper {
 
     public static final DTOToAbstractMapper INSTANCE = Mappers.getMapper(DTOToAbstractMapper.class);
 
-    @Mapping(target = "Devise", ignore = true)
+    @Mapping(target = "devise", ignore = true)
     public abstract Solde getFromSoldeDTO(final SoldeDTO pToConvert);
 
     public abstract Devise getFromDeviseDTO(final DeviseDTO pToConvert);
