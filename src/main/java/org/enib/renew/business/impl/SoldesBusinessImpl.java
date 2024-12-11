@@ -1,5 +1,6 @@
 package org.enib.renew.business.impl;
 
+import org.apache.commons.collections4.MapUtils;
 import org.enib.renew.business.ISoldesBusiness;
 import org.enib.renew.business.model.Solde;
 import org.enib.renew.dao.IDevisesDAO;
@@ -12,6 +13,8 @@ import org.enib.renew.utils.mappers.DTOToAbstractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Primary
@@ -53,7 +56,22 @@ public class SoldesBusinessImpl implements ISoldesBusiness {
 
             return res;
         } catch (final DAOException pEx) {
-            throw new BusinessException("Erreur technique !", pEx);
+            throw new BusinessException("Erreur technique sur la récupération d'un solde !", pEx);
+        }
+    }
+
+    /**
+     * Récupération de tous les ID de personnes existants
+     *
+     * @return la liste si trouvée, null sinon
+     * @throws BusinessException en cas de crash
+     */
+    @Override
+    public List<String> getPersonIds() throws BusinessException {
+        try {
+            return this.soldesDAO.getPersonIds();
+        } catch (final DAOException pEx) {
+            throw new BusinessException("Erreur technique sur la récupération des IDs personnes !", pEx);
         }
     }
 }

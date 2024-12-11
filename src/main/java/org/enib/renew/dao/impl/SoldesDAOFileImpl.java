@@ -1,6 +1,7 @@
 package org.enib.renew.dao.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.enib.renew.dao.ISoldesDAO;
 import org.enib.renew.dto.DeviseDTO;
 import org.enib.renew.dto.SoldeDTO;
@@ -57,5 +58,16 @@ public class SoldesDAOFileImpl extends CSVParser<SoldeDTO> implements ISoldesDAO
     @Override
     public SoldeDTO getSolde(final String pPersonId) throws DAOException {
         return this.data.get(pPersonId);
+    }
+
+    /**
+     * Récupération de tous les ID de personnes existants
+     *
+     * @return la liste si trouvée, null sinon
+     * @throws DAOException en cas de crash
+     */
+    @Override
+    public List<String> getPersonIds() throws DAOException {
+        return MapUtils.emptyIfNull(this.data).keySet().stream().toList();
     }
 }

@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(SoldesController.PATH)
 
@@ -31,17 +33,14 @@ public class SoldesController {
             @ApiResponse(responseCode = "200", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Solde.class))
             }),
-            @ApiResponse(responseCode = "401", description = "JWT not correctly provided or not fed.  Le JWT n'est pas correctement alimenté ou pas alimenté du tout.", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "No quality data found for the requested ID on the EFS from the JWT.  Pas de données qualité trouvées pour la personne requétée sur l'EFS issu du JWT.", content = {
+            @ApiResponse(responseCode = "404", description = "Pas de donnée trouvée", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server internal error", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
             })
     })
-    @RequestMapping(method = RequestMethod.GET, value = "/soldes/{personId}", produces = {"application/json"})
+    @RequestMapping(method = RequestMethod.GET, value = "/persons/{personId}/solde", produces = {"application/json"})
     public ResponseEntity<Solde> getSolde(
             @Parameter(name = "personId", required = true, schema = @Schema()) @PathVariable("personId") String pPersonId) {
 
@@ -71,4 +70,46 @@ public class SoldesController {
             throw new APIErrorException(error);
         }
     }
+
+    @Operation(operationId = "getPersonIds", summary = "Ramener tous les id des personnes", description = "Ramener tous les id des personnes", tags = {"Persons"}, responses = {
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Solde.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Pas de donnée trouvée", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server internal error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
+            })
+    })
+    @RequestMapping(method = RequestMethod.GET, value = "/persons", produces = {"application/json"})
+    public ResponseEntity<List<String>> getPersonIds() {
+
+        try {
+
+            final List<String> fromBusiness = soldesBusiness.getPersonIds();
+            if (null != fromBusiness) {
+                return new ResponseEntity<>(fromBusiness, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+            }
+        } catch (final BusinessException pEx) {
+            LOGGER.error("Erreur sur la récupération des IDs personne !", pEx);
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            error.setCause(pEx.getSpecificMessage());
+
+            throw new APIErrorException(error);
+        } catch (Exception pEx) {
+            LOGGER.error("Erreur inattendue sur getPersonIds !", pEx);
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            throw new APIErrorException(error);
+        }
+    }
+
 }
