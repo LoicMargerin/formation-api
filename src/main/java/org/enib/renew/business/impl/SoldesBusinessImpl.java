@@ -1,9 +1,9 @@
 package org.enib.renew.business.impl;
 
-import org.apache.commons.collections4.MapUtils;
+import org.enib.renew.business.IDevisesBusiness;
 import org.enib.renew.business.ISoldesBusiness;
+import org.enib.renew.business.model.Devise;
 import org.enib.renew.business.model.Solde;
-import org.enib.renew.dao.IDevisesDAO;
 import org.enib.renew.dao.ISoldesDAO;
 import org.enib.renew.dto.DeviseDTO;
 import org.enib.renew.dto.SoldeDTO;
@@ -24,7 +24,7 @@ public class SoldesBusinessImpl implements ISoldesBusiness {
     protected ISoldesDAO soldesDAO;
 
     @Autowired
-    protected IDevisesDAO devisesDAO;
+    protected IDevisesBusiness devisesBusiness;
 
     protected DTOToAbstractMapper mapper = DTOToAbstractMapper.INSTANCE;
 
@@ -48,11 +48,11 @@ public class SoldesBusinessImpl implements ISoldesBusiness {
             }
 
             // Récupération du paramétrage devise associé au solde
-            final DeviseDTO fromDAODevise = this.devisesDAO.getDeviseByCode(fromDAOSolde.getDeviseCode());
+            final Devise fromDAODevise = this.devisesBusiness.getDevise(fromDAOSolde.getDeviseCode());
 
             // Mapping
             final Solde res = mapper.getFromSoldeDTO(fromDAOSolde);
-            res.setDevise(mapper.getFromDeviseDTO(fromDAODevise));
+            res.setDevise(fromDAODevise);
 
             return res;
         } catch (final DAOException pEx) {

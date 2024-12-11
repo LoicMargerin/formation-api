@@ -1,7 +1,9 @@
 package org.enib.renew.api.rest.controllers;
 
 import org.enib.renew.api.rest.controllers.model.APIError;
+import org.enib.renew.business.IDevisesBusiness;
 import org.enib.renew.business.ISoldesBusiness;
+import org.enib.renew.business.model.Devise;
 import org.enib.renew.business.model.Solde;
 import org.enib.renew.exceptions.APIErrorException;
 import org.enib.renew.exceptions.BusinessException;
@@ -18,16 +20,19 @@ import io.swagger.v3.oas.annotations.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(SoldesController.PATH)
+@RequestMapping(MainController.PATH)
 
-public class SoldesController {
+public class MainController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SoldesController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
     public static final String PATH = "business";
 
     @Autowired
     protected ISoldesBusiness soldesBusiness;
+
+    @Autowired
+    protected IDevisesBusiness devisesBusiness;
 
     @Operation(operationId = "getSolde", summary = "Ramener le solde d'une personne", description = "Ramener le solde d'une personne", tags = {"Solde"}, responses = {
             @ApiResponse(responseCode = "200", content = {
@@ -104,6 +109,47 @@ public class SoldesController {
             throw new APIErrorException(error);
         } catch (Exception pEx) {
             LOGGER.error("Erreur inattendue sur getPersonIds !", pEx);
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            throw new APIErrorException(error);
+        }
+    }
+
+    @Operation(operationId = "getDevises", summary = "Ramener toutes les devises", description = "Ramener toutes les devises", tags = {"Devises"}, responses = {
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Solde.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Pas de donnée trouvée", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server internal error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
+            })
+    })
+    @RequestMapping(method = RequestMethod.GET, value = "/devises", produces = {"application/json"})
+    public ResponseEntity<List<Devise>> getDevises() {
+
+        try {
+
+            final List<Devise> fromBusiness = devisesBusiness.getDevises();
+            if (null != fromBusiness) {
+                return new ResponseEntity<>(fromBusiness, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+            }
+        } catch (final BusinessException pEx) {
+            LOGGER.error("Erreur sur la récupération des devises !", pEx);
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            error.setCause(pEx.getSpecificMessage());
+
+            throw new APIErrorException(error);
+        } catch (Exception pEx) {
+            LOGGER.error("Erreur inattendue sur devises !", pEx);
             final APIError error = new APIError();
 
             error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());

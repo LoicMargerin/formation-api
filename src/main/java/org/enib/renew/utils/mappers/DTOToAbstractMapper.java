@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * Mapper
  */
@@ -21,4 +23,5 @@ public abstract class DTOToAbstractMapper {
 
     public abstract Devise getFromDeviseDTO(final DeviseDTO pToConvert);
 
+    public abstract List<Devise> getFromDevisesListDTO(List<DeviseDTO> fromDAODevise);
 }

@@ -1,6 +1,7 @@
 package org.enib.renew.dao.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.enib.renew.dao.IDevisesDAO;
 import org.enib.renew.dto.DeviseDTO;
 import org.enib.renew.exceptions.DAOException;
@@ -48,5 +49,15 @@ public class DevisesDAOFileImpl extends CSVParser<DeviseDTO> implements IDevises
     @Override
     public DeviseDTO getDeviseByCode(String pCodeDevise) throws DAOException {
         return this.data.get(pCodeDevise);
+    }
+
+    /**
+     * Récupérer la liste des devises
+     *
+     * @return la liste des devises
+     */
+    @Override
+    public List<DeviseDTO> getDevises() throws DAOException {
+        return MapUtils.emptyIfNull(this.data).values().stream().toList();
     }
 }
