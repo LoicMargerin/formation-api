@@ -8,12 +8,12 @@
 		<version>3.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>org.enib</groupId>
+	<artifactId>renew</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<description>TP refonte d'application</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -50,8 +50,19 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>2.2.9</version>
 		</dependency>
+		<!--
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+			<scope>runtime</scope>
+		</dependency>-->
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -60,5 +71,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
