@@ -1,4 +1,4 @@
-package org.enib.renew.api.rest.model;
+package org.enib.renew.business.model;
 
 public class Solde {
     private String personId;

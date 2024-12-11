@@ -1,7 +1,11 @@
 package org.enib.renew.api.rest.controllers;
 
-import org.enib.renew.api.rest.model.APIError;
-import org.enib.renew.api.rest.model.Solde;
+import org.enib.renew.api.rest.controllers.model.APIError;
+import org.enib.renew.business.ISoldesBusiness;
+import org.enib.renew.business.model.Solde;
+import org.enib.renew.exceptions.APIErrorException;
+import org.enib.renew.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +13,14 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping(SoldesController.PATH)
 
 public class SoldesController {
     public static final String PATH = "business";
+
+    @Autowired
+    protected ISoldesBusiness soldesBusiness;
 
     @Operation(operationId = "getSolde", summary = "Ramener le solde d'une personne", description = "Ramener le solde d'une personne", tags = {"Solde"}, responses = {
             @ApiResponse(responseCode = "200", content = {
@@ -33,9 +38,27 @@ public class SoldesController {
     })
     @RequestMapping(method = RequestMethod.GET, value = "/soldes/{personId}", produces = {"application/json"})
     public ResponseEntity<Solde> getSolde(
-            @Parameter(name = "personId", required = true, schema = @Schema()) @PathVariable("personId") String personId)
- {
-        return new ResponseEntity<>(new Solde(), HttpStatus.OK);
+            @Parameter(name = "personId", required = true, schema = @Schema()) @PathVariable("personId") String pPersonId) {
+
+        try {
+
+            final Solde fromBusiness = soldesBusiness.getSolde(pPersonId);
+            if (null != fromBusiness) {
+                return new ResponseEntity<>(fromBusiness, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+            }
+        } catch (final BusinessException e) {
+            final APIError error = new APIError();
+
+            error.setHttpcode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            error.setCause(e.getSpecificMessage());
+
+            throw new APIErrorException(error);
+        }
+
+
 
     }
 }
