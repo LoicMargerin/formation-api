@@ -31,7 +31,7 @@ public class SoldesController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = APIError.class))
             })
     })
-    @RequestMapping(method = RequestMethod.GET, value = "/soldes/{personQualityDataId}", produces = {"application/json"})
+    @RequestMapping(method = RequestMethod.GET, value = "/soldes/{personId}", produces = {"application/json"})
     public ResponseEntity<Solde> getSolde(
             @Parameter(name = "personId", required = true, schema = @Schema()) @PathVariable("personId") String personId)
  {
