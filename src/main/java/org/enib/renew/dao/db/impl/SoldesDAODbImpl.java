@@ -51,12 +51,8 @@ public class SoldesDAODbImpl extends AbstractDBDAO implements ISoldesDAO {
         try {
             final List<SoldeDTO> fromDb = super.getTemplate().query(REQUETE_GET_SOLDE, parameters, rowSoldeDeviseDTO);
             if (CollectionUtils.isNotEmpty(fromDb)) {
-                final SoldeDTO res = fromDb.getFirst();
-                if (StringUtils.contains(res.getPersonId(),"10")) {
-                    throw new DAOException("Erreur technique inattendue !");
-                } else {
-                    return res;
-                }
+
+                return fromDb.getFirst();
             } else {
                 return null;
             }
