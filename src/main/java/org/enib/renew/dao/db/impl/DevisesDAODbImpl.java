@@ -29,7 +29,7 @@ public class DevisesDAODbImpl extends AbstractDBDAO implements IDevisesDAO {
     private final RowMapper<DeviseDTO> rowMapperDeviseDTO = (rs, rowNum) -> {
         final DeviseDTO fromDB = new DeviseDTO();
         fromDB.setCode(StringUtils.trim(rs.getString("code")));
-        fromDB.setLibelle(StringUtils.trim(rs.getString("libelle")));
+        fromDB.setLibelle(StringUtils.truncate(StringUtils.trim(rs.getString("libelle")),5));
 
         return fromDB;
     };
