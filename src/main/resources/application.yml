@@ -13,7 +13,7 @@ datasource:
     idle-timeout: 50001
     leak-detection-threshold: 200
     driver-class-name: org.postgresql.Driver
+#    url: "jdbc:postgresql://postgres-enib:5432/enib?targetServerType=primary" #quand on sera dockerisé
     url: "jdbc:postgresql://localhost:5432/enib?targetServerType=primary"
     username: "enib"
     password: "enib"
-

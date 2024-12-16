@@ -11,7 +11,7 @@
 	<groupId>org.enib</groupId>
 	<artifactId>APISoldes</artifactId>
 	<version>2.1</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>APISoldes</name>
 	<description>TP refonte d'application</description>
 	<url/>
