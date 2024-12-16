@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.enib</groupId>
 	<artifactId>APISoldes</artifactId>
-	<version>1.0</version>
+	<version>2.0</version>
 	<packaging>war</packaging>
 	<name>APISoldes</name>
 	<description>TP refonte d'application</description>
