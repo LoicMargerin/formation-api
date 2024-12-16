@@ -1,0 +1,13 @@
+datasource:
+  db:
+    maximum-pool-size: 10
+    connection-test-query: SELECT 1
+    test-on-borrow: true
+    connection-timeout: 10000
+    idle-timeout: 50001
+    leak-detection-threshold: 200
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5432/enib?targetServerType=primary"
+    username: "enib"
+    password: "enib"
+
