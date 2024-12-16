@@ -17,4 +17,7 @@ If you manually switch to a different parent and actually want the inheritance, 
 Lancer avec
 ./mvnw spring-boot:run
 
+Créer un war :
+./mvnw install
+
 IHM visible sur http://localhost:8080/swagger-ui/index.html#/
