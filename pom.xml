@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.enib</groupId>
-	<artifactId>renew</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>APISoldes</artifactId>
+	<version>1.0</version>
 	<packaging>war</packaging>
-	<name>renew</name>
+	<name>APISoldes</name>
 	<description>TP refonte d'application</description>
 	<url/>
 	<licenses>
