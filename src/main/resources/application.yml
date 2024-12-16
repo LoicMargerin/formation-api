@@ -1,3 +1,9 @@
+spring:
+  profiles:
+    active: Default
+  application:
+    name: APISoldes
+
 datasource:
   db:
     maximum-pool-size: 10
