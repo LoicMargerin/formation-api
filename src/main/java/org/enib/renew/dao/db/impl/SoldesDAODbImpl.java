@@ -20,8 +20,8 @@ import java.util.List;
 @Primary
 public class SoldesDAODbImpl extends AbstractDBDAO implements ISoldesDAO {
 
-    private static String REQUETE_GET_ALL_PERSONNES = " SELECT id FROM soldes";
-    private static String REQUETE_GET_SOLDE = " SELECT id, montant, devise FROM soldes WHERE id = :id";
+    private final static String REQUETE_GET_ALL_PERSONNES = " SELECT id, montant, devise FROM soldes";
+    private final static String REQUETE_GET_SOLDE = " SELECT id, montant, devise FROM soldes WHERE id = :id";
 
     protected SoldesDAODbImpl(HikariDataSource dpDataSource) {
         super(dpDataSource);
