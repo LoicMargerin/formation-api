@@ -1,4 +1,4 @@
-package org.enib.renew.dao.impl;
+package org.enib.renew.dao.legacy.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
