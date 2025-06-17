@@ -40,3 +40,6 @@ CREATE TABLE enib.devises (
 
 CREATE UNIQUE INDEX devises_pk ON enib.devises USING btree (code);
 
+\COPY enib.soldes FROM '/csv/soldes.csv' WITH DELIMITER ';' CSV;
+
+\COPY enib.devises FROM '/csv/devises.csv' WITH DELIMITER ';' CSV;
